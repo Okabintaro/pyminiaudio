@@ -7,7 +7,7 @@ from setuptools import setup
 
 
 miniaudio_path = os.path.abspath(".")  # to make sure the compiler can find the required include files
-PKG_VERSION = re.search(r'^__version__\s*=\s*"(.+)"', open("miniaudio.py", "rt").read(), re.MULTILINE).groups()[0]
+PKG_VERSION = re.search(r'^__version__\s*=\s*"(.+)"', open("miniaudio/miniaudio.py", "rt").read(), re.MULTILINE).groups()[0]
 
 
 def miniaudio_test_suite():
@@ -19,11 +19,14 @@ def miniaudio_test_suite():
 if __name__ == "__main__":
     setup(
         name="miniaudio",
+        packages=['miniaudio'],
+        package_dir={'miniaudio': 'miniaudio'},
+        package_data={"miniaudio": ["py.typed"]},
         version=PKG_VERSION,
         cffi_modules=["build_ffi_module.py:ffibuilder"],
         include_dirs=[miniaudio_path],
         zip_safe=False,
-        include_package_data=False,
+        include_package_data=True,
         py_modules=["miniaudio"],
         install_requires=["cffi>=1.12.0", "wheel"],
         setup_requires=["cffi>=1.12.0", "wheel"],
